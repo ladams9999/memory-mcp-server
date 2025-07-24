@@ -19,10 +19,10 @@ Epic Issue: https://github.com/ladams9999/memory-mcp-server/issues/5
 - [x] Create `src/mcp_memory_server/models/__init__.py`
 - [x] Implement `src/mcp_memory_server/models/memory.py` with Memory Pydantic model
 - [x] Add uuid7 for unique memory IDs and timestamp handling
-- [ ] Create `src/mcp_memory_server/config/__init__.py`
-- [ ] Implement `src/mcp_memory_server/config/settings.py` with Pydantic Settings
-- [ ] Focus on ChromaDB and Ollama configuration only for MVP
-- [ ] Add environment variable validation
+- [x] Create `src/mcp_memory_server/config/__init__.py`
+- [x] Implement `src/mcp_memory_server/config/settings.py` with Pydantic Settings
+- [x] Focus on ChromaDB and Ollama configuration only for MVP
+- [x] Add environment variable validation
 - [ ] Create `src/mcp_memory_server/embeddings/__init__.py`
 - [ ] Create base interface `src/mcp_memory_server/embeddings/embedding_provider_interface.py`
 - [ ] Implement `src/mcp_memory_server/embeddings/ollama.py` with httpx client
@@ -106,3 +106,4 @@ Epic Issue: https://github.com/ladams9999/memory-mcp-server/issues/8
 4. Updates should flow both ways: from GitHub issues into TODO.md, and from TODO.md into GitHub issues.
 5. When a new milestone begins, archive or move the previous milestone's tasks as needed.
 6. Use this file as a local reference and synchronization point for milestone progress.
+7. When marking a task as complete, only mark the checkbox (change [ ] to [x]) and make no other changes to the file unless explicitly instructed.
