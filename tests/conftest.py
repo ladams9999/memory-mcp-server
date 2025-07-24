@@ -52,3 +52,39 @@ def complex_metadata():
         "boolean_flag": True,
         "numeric_value": 42.5
     }
+
+
+@pytest.fixture
+def sample_embedding():
+    """Sample embedding vector for testing."""
+    return [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
+
+
+@pytest.fixture
+def ollama_base_url():
+    """Base URL for Ollama testing."""
+    return "http://localhost:11434"
+
+
+@pytest.fixture
+def ollama_model():
+    """Model name for Ollama testing."""
+    return "mxbai-embed-large"
+
+
+@pytest.fixture
+def sample_texts():
+    """Sample texts for batch embedding testing."""
+    return [
+        "This is the first sample text",
+        "Here is another piece of text",
+        "And this is the third sample"
+    ]
+
+
+@pytest.fixture
+def mock_ollama_response():
+    """Mock successful Ollama API response."""
+    return {
+        "embedding": [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
+    }

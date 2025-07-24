@@ -23,11 +23,11 @@ Epic Issue: https://github.com/ladams9999/memory-mcp-server/issues/5
 - [x] Implement `src/mcp_memory_server/config/settings.py` with Pydantic Settings
 - [x] Focus on ChromaDB and Ollama configuration only for MVP
 - [x] Add environment variable validation
-- [ ] Create `src/mcp_memory_server/embeddings/__init__.py`
-- [ ] Create base interface `src/mcp_memory_server/embeddings/embedding_provider_interface.py`
-- [ ] Implement `src/mcp_memory_server/embeddings/ollama.py` with httpx client
-- [ ] Add error handling for Ollama connection issues
-- [ ] Test with mxbai-embed-large model
+- [x] Create `src/mcp_memory_server/embeddings/__init__.py`
+- [x] Create base interface `src/mcp_memory_server/embeddings/embedding_provider_interface.py`
+- [x] Implement `src/mcp_memory_server/embeddings/ollama.py` with httpx client
+- [x] Add error handling for Ollama connection issues
+- [x] Test with mxbai-embed-large model
 - [ ] Create `src/mcp_memory_server/storage/__init__.py`
 - [ ] Create base interface `src/mcp_memory_server/storage/storage_interface.py`
 - [ ] Implement `src/mcp_memory_server/storage/chroma.py` with ChromaDB client
