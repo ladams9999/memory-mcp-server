@@ -9,10 +9,10 @@
 - [x] Initialize basic project directory structure under `src/`
 
 ### 2. Set Up Core Data Models
-- [ ] Create `src/mcp_memory_server/__init__.py`
-- [ ] Create `src/mcp_memory_server/models/__init__.py`
-- [ ] Implement `src/mcp_memory_server/models/memory.py` with Memory Pydantic model
-- [ ] Add uuid7 for unique memory IDs and timestamp handling
+- [x] Create `src/mcp_memory_server/__init__.py`
+- [x] Create `src/mcp_memory_server/models/__init__.py`
+- [x] Implement `src/mcp_memory_server/models/memory.py` with Memory Pydantic model
+- [x] Add uuid7 for unique memory IDs and timestamp handling
 
 ### 3. Create Configuration Management
 - [ ] Create `src/mcp_memory_server/config/__init__.py`
