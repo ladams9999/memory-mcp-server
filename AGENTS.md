@@ -5,6 +5,48 @@ The PRD and technical plan is located in memory_mcp_server_prd.md
 
 This is an MCP (Model Context Protocol) server that provides long-term memory capabilities for AI agents, enabling persistent storage, retrieval, and semantic search of contextual memories across sessions.
 
+## Project Task Management via GitHub Issues
+
+All project tasks, milestones, and epics are maintained via GitHub issues in the repository, using the GitHub MCP server for automation and tracking. The local TODO.md is deprecated; all new work should be tracked in GitHub issues.
+
+### Issue Hierarchy and Block Format
+
+Each issue must include a hierarchy block at the top of its description, formatted as follows:
+
+For Milestone issues (top-level):
+```
+Parent:
+Project: <project_link>
+Children:
+- <child_issue_link>
+Related to:
+- <related_issue_link>
+```
+
+For Epic issues (phase-level):
+```
+Parent: <parent_issue_link>
+Project: <project_link>
+Children:
+- <child_issue_link>
+Depends On:
+- <prerequisite_issue_link>
+```
+
+Checklist tasks for the epic should be listed below this block.
+
+### Instructions for Maintaining Tasks
+
+1. Create all new tasks, milestones, and epics as GitHub issues.
+2. Add the hierarchy block to each issue as described above.
+3. Link parent/child issues and project as appropriate.
+4. Use the GitHub MCP server to automate issue creation, updates, and tracking.
+5. Do not use TODO.md for new tasks; migrate any remaining items to issues.
+6. Keep checklists and progress in the issue body for visibility.
+7. For Epic issues, always include a link to the previous phase's issue in the 'Depends On' field to indicate dependency order.
+
+This process ensures all work is visible, organized, and tracked in the GitHub project and issues.
+
 ## MVP Target Configuration
 - **Runtime**: CLI (no Docker for MVP)
 - **Storage Backend**: ChromaDB (filesystem-based)
