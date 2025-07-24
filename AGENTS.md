@@ -45,6 +45,15 @@ Checklist tasks for the epic should be listed below this block.
 6. Keep checklists and progress in the issue body for visibility.
 7. For Epic issues, always include a link to the previous phase's issue in the 'Depends On' field to indicate dependency order.
 
+### Instructions for Maintaining TODO.md
+
+1. At the start of each milestone, update the top section to identify the milestone, expected outcome, and link to the milestone issue.
+2. Group all tasks by their Epic issue, including a link to each Epic issue.
+3. Keep task status (checked/unchecked) in sync with GitHub issues.
+4. Updates should flow both ways: from GitHub issues into TODO.md, and from TODO.md into GitHub issues.
+5. When a new milestone begins, archive or move the previous milestone's tasks as needed.
+6. Use this file as a local reference and synchronization point for milestone progress.
+
 This process ensures all work is visible, organized, and tracked in the GitHub project and issues.
 
 ## MVP Target Configuration
