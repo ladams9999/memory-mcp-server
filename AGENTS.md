@@ -97,16 +97,7 @@ This process ensures all work is visible, organized, and tracked in the GitHub p
 
 ## Environment Setup Requirements
 
-1. **Install UV Package Manager**:
-
-   ```bash
-   # Windows (PowerShell)
-   powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
-   
-   # Alternative: using pip
-   pip install uv
-   ```
-
+1. UV installed
 2. Ollama installed and running: `ollama serve`
 3. Embedding model pulled: `ollama pull mxbai-embed-large`
 4. Python 3.11+ available
