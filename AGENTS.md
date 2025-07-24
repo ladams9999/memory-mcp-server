@@ -45,9 +45,19 @@ This is an MCP (Model Context Protocol) server that provides long-term memory ca
 - uuid7>=0.1.0 (for unique memory IDs)
 
 ## Environment Setup Requirements
-1. Ollama installed and running: `ollama serve`
-2. Embedding model pulled: `ollama pull mxbai-embed-large`
-3. UV package manager installed
+
+1. **Install UV Package Manager**:
+
+   ```bash
+   # Windows (PowerShell)
+   powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+   
+   # Alternative: using pip
+   pip install uv
+   ```
+
+2. Ollama installed and running: `ollama serve`
+3. Embedding model pulled: `ollama pull mxbai-embed-large`
 4. Python 3.11+ available
 
 ## Key Implementation Details
@@ -99,12 +109,42 @@ SIMILARITY_THRESHOLD=0.7
 ```
 
 ### Testing Strategy
+
 - Unit tests for each component in isolation
 - Integration tests for end-to-end workflows
 - Manual testing with sample data and edge cases
 - Performance testing with 100+ memories
 
+### Development Commands (UV Package Manager)
+
+```bash
+# Note: If uv is not in PATH, use the full path:
+# Windows: $env:USERPROFILE\.local\bin\uv.exe
+
+# Install all dependencies including dev dependencies
+uv sync --dev
+
+# Run all tests
+uv run pytest
+
+# Run specific test file
+uv run pytest tests/unit/test_models/test_memory.py
+
+# Run tests with coverage
+uv run pytest --cov=src/mcp_memory_server
+
+# Run tests with verbose output
+uv run pytest -v
+
+# Add development dependencies
+uv add --dev package_name
+
+# Add production dependencies
+uv add package_name
+```
+
 ### Development Milestones
+
 1. **Foundation** (Steps 1-6): Core architecture and data flow
 2. **MCP Integration** (Steps 7-10): FastMCP tools and server setup
 3. **Testing & Validation** (Steps 11-14): Comprehensive testing
