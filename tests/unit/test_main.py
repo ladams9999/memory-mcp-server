@@ -94,6 +94,7 @@ class TestMainFunction:
         # Setup mocks
         mock_settings = Mock()
         mock_settings.log_level = "INFO"
+        mock_settings.server_port = 8000
         mock_get_settings.return_value = mock_settings
 
         mock_logger = Mock()
@@ -106,7 +107,11 @@ class TestMainFunction:
         mock_get_settings.assert_called_once()
         mock_setup_logging.assert_called_once_with("INFO")
         mock_get_logger.assert_called_once_with("mcp_memory_server.main")
-        mock_logger.info.assert_called_once_with("Starting MCP Memory Server...")
+        
+        # Verify both log messages are called
+        assert mock_logger.info.call_count == 2
+        mock_logger.info.assert_any_call("Starting MCP Memory Server...")
+        mock_logger.info.assert_any_call("Server will start on port 8000")
         mock_app_run.assert_called_once()
 
     @patch("mcp_memory_server.main.app.run")
@@ -120,6 +125,7 @@ class TestMainFunction:
         # Setup mocks
         mock_settings = Mock()
         mock_settings.log_level = "DEBUG"
+        mock_settings.server_port = 8000
         mock_get_settings.return_value = mock_settings
 
         mock_logger = Mock()
@@ -142,6 +148,7 @@ class TestMainFunction:
         # Setup mocks
         mock_settings = Mock()
         mock_settings.log_level = "INFO"
+        mock_settings.server_port = 8000
         mock_settings_class.return_value = mock_settings
 
         mock_logger = Mock()
@@ -172,6 +179,89 @@ class TestMainFunction:
         # setup_logging should not be called if Settings fails
         mock_setup_logging.assert_not_called()
         mock_app_run.assert_not_called()
+
+    @patch("mcp_memory_server.main.os.environ", {})
+    @patch("mcp_memory_server.main.app.run")
+    @patch("mcp_memory_server.main.setup_logging")
+    @patch("mcp_memory_server.main.get_settings")
+    @patch("mcp_memory_server.main.logging.getLogger")
+    def test_main_function_sets_fastmcp_port_default(
+        self, mock_get_logger, mock_get_settings, mock_setup_logging, mock_app_run
+    ):
+        """Test that main function sets FASTMCP_PORT environment variable to default port."""
+        import os
+        
+        # Setup mocks
+        mock_settings = Mock()
+        mock_settings.log_level = "INFO"
+        mock_settings.server_port = 8000
+        mock_get_settings.return_value = mock_settings
+
+        mock_logger = Mock()
+        mock_get_logger.return_value = mock_logger
+
+        # Call main function
+        main()
+
+        # Verify FASTMCP_PORT was set
+        assert os.environ.get("FASTMCP_PORT") == "8000"
+        
+        # Verify logging includes port information
+        mock_logger.info.assert_any_call("Server will start on port 8000")
+
+    @patch("mcp_memory_server.main.os.environ", {})
+    @patch("mcp_memory_server.main.app.run")
+    @patch("mcp_memory_server.main.setup_logging")
+    @patch("mcp_memory_server.main.get_settings")
+    @patch("mcp_memory_server.main.logging.getLogger")
+    def test_main_function_sets_fastmcp_port_custom(
+        self, mock_get_logger, mock_get_settings, mock_setup_logging, mock_app_run
+    ):
+        """Test that main function sets FASTMCP_PORT environment variable to custom port."""
+        import os
+        
+        # Setup mocks
+        mock_settings = Mock()
+        mock_settings.log_level = "INFO"
+        mock_settings.server_port = 9000
+        mock_get_settings.return_value = mock_settings
+
+        mock_logger = Mock()
+        mock_get_logger.return_value = mock_logger
+
+        # Call main function
+        main()
+
+        # Verify FASTMCP_PORT was set to custom port
+        assert os.environ.get("FASTMCP_PORT") == "9000"
+        
+        # Verify logging includes custom port information
+        mock_logger.info.assert_any_call("Server will start on port 9000")
+
+    @patch("mcp_memory_server.main.app.run")
+    @patch("mcp_memory_server.main.setup_logging")
+    @patch("mcp_memory_server.main.get_settings")
+    @patch("mcp_memory_server.main.logging.getLogger")
+    def test_main_function_port_logging_order(
+        self, mock_get_logger, mock_get_settings, mock_setup_logging, mock_app_run
+    ):
+        """Test that port logging happens after server startup message."""
+        # Setup mocks
+        mock_settings = Mock()
+        mock_settings.log_level = "INFO"
+        mock_settings.server_port = 8080
+        mock_get_settings.return_value = mock_settings
+
+        mock_logger = Mock()
+        mock_get_logger.return_value = mock_logger
+
+        # Call main function
+        main()
+
+        # Check that both log messages were called
+        assert mock_logger.info.call_count == 2
+        mock_logger.info.assert_any_call("Starting MCP Memory Server...")
+        mock_logger.info.assert_any_call("Server will start on port 8080")
 
 
 class TestMainModuleExecution:

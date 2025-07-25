@@ -1,7 +1,7 @@
 """Main entry point for the MCP Memory Server."""
 
 import logging
-import asyncio
+import os
 # Shared FastMCP app instance
 from mcp_memory_server.app_instance import app
 from mcp_memory_server.config.settings import Settings, get_settings  # noqa: F401
@@ -44,6 +44,12 @@ def main() -> None:
 
     logger = logging.getLogger(__name__)
     logger.info("Starting MCP Memory Server...")
+
+    # Configure FastMCP to use the specified port
+    # FastMCP reads FASTMCP_PORT environment variable for port configuration
+    os.environ["FASTMCP_PORT"] = str(settings.server_port)
+    
+    logger.info(f"Server will start on port {settings.server_port}")
 
     # Health check is skipped in main to prevent blocking startup
     # TODO: Implement health check asynchronously if needed

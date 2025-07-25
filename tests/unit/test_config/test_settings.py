@@ -30,6 +30,7 @@ class TestSettingsDefaults:
         assert settings.default_search_limit == 10
         assert settings.similarity_threshold == 0.7
         assert settings.log_level == "INFO"
+        assert settings.server_port == 8000
 
     def test_settings_with_env_variables(self):
         """Test settings loading from environment variables."""
@@ -47,6 +48,7 @@ class TestSettingsDefaults:
                 "DEFAULT_SEARCH_LIMIT": "20",
                 "SIMILARITY_THRESHOLD": "0.8",
                 "LOG_LEVEL": "DEBUG",
+                "SERVER_PORT": "9000",
             }
 
             with patch.dict(os.environ, env_vars):
@@ -62,6 +64,7 @@ class TestSettingsDefaults:
                 assert settings.default_search_limit == 20
                 assert settings.similarity_threshold == 0.8
                 assert settings.log_level == "DEBUG"
+                assert settings.server_port == 9000
 
 
 class TestSettingsValidation:
@@ -137,6 +140,34 @@ class TestSettingsValidation:
 
         with pytest.raises(ValidationError):
             Settings(similarity_threshold=1.1)  # Too high
+
+    def test_server_port_validation(self):
+        """Test server_port field validation."""
+        # Valid values
+        settings = Settings(server_port=1024)  # Minimum port
+        assert settings.server_port == 1024
+
+        settings = Settings(server_port=65535)  # Maximum port
+        assert settings.server_port == 65535
+
+        settings = Settings(server_port=8000)  # Default port
+        assert settings.server_port == 8000
+
+        settings = Settings(server_port=9000)  # Custom port
+        assert settings.server_port == 9000
+
+        # Invalid values
+        with pytest.raises(ValidationError):
+            Settings(server_port=1023)  # Too low (below 1024)
+
+        with pytest.raises(ValidationError):
+            Settings(server_port=65536)  # Too high (above 65535)
+
+        with pytest.raises(ValidationError):
+            Settings(server_port=0)  # Too low
+
+        with pytest.raises(ValidationError):
+            Settings(server_port=-1)  # Negative
 
 
 class TestSettingsFieldValidators:

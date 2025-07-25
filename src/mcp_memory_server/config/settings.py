@@ -68,6 +68,14 @@ class Settings(BaseSettings):
     # Logging
     log_level: str = Field(default="INFO", description="Logging level")
 
+    # Server Configuration
+    server_port: int = Field(
+        default=8000,
+        ge=1024,
+        le=65535,
+        description="Port for the MCP server to listen on",
+    )
+
     # Field Validators (Pydantic V2)
     @field_validator("chroma_path")
     @classmethod
@@ -137,6 +145,7 @@ class Settings(BaseSettings):
                 "default_search_limit": 10,
                 "similarity_threshold": 0.7,
                 "log_level": "INFO",
+                "server_port": 8000,
             }
         },
     )
