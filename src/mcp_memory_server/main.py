@@ -1,12 +1,11 @@
 """Main entry point for the MCP Memory Server."""
 
 import logging
-from typing import Optional
-
 from fastmcp import FastMCP
-from pydantic_settings import BaseSettings
 
-from .models.memory import Memory
+from pydantic_settings import BaseSettings
+# Import memory tools to register MCP tools
+from .tools import memory_tools  # noqa: F401  # register MCP tools
 
 
 class Settings(BaseSettings):
@@ -23,7 +22,6 @@ def setup_logging(level: str = "INFO") -> None:
     )
 
 
-# Create the FastMCP app instance
 app = FastMCP("MCP Memory Server")
 
 # Add your tools and resources here

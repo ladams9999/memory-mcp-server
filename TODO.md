@@ -42,11 +42,11 @@ Epic Issue: https://github.com/ladams9999/memory-mcp-server/issues/5
 ## Epic: MCP Integration & Tools
 Epic Issue: https://github.com/ladams9999/memory-mcp-server/issues/6
 
-- [ ] Create `src/mcp_memory_server/tools/__init__.py`
-- [ ] Implement `src/mcp_memory_server/tools/memory_tools.py` with FastMCP decorators
-- [ ] Create `store_memories` tool with batch support
-- [ ] Create `retrieve_memories` tool for context-based retrieval
-- [ ] Create `search_memories` tool with semantic similarity
+- [x] Create `src/mcp_memory_server/tools/__init__.py`
+- [x] Implement `src/mcp_memory_server/tools/memory_tools.py` with FastMCP decorators
+- [x] Create `store_memories` tool with batch support
+- [x] Create `retrieve_memories` tool for context-based retrieval
+- [x] Create `search_memories` tool with semantic similarity
 - [ ] Implement `src/mcp_memory_server/main.py` with FastMCP server setup
 - [ ] Initialize all components (settings, storage, embeddings, service)
 - [ ] Register MCP tools with the server

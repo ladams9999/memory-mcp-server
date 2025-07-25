@@ -17,8 +17,9 @@ An MCP (Model Context Protocol) server that provides long-term memory capabiliti
 3. Pull the embedding model: `ollama pull mxbai-embed-large`
 4. Clone this repository
 5. Install dependencies: `uv sync`
-6. Copy `.env.example` to `.env` and configure as needed
+6. Activate virtual environment: `uv shell`
 7. Run the server: `uv run mcp-memory-server`
+8. Copy `.env.example` to `.env` and configure as needed
 
 ## Configuration
 
