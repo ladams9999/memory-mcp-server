@@ -1,8 +1,12 @@
 """Pytest configuration and fixtures for the Memory MCP Server tests."""
+
 import sys
 import os
+
 # Add project src directory to PYTHONPATH for imports
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
+sys.path.insert(
+    0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src"))
+)
 
 import pytest
 from datetime import datetime, timezone
@@ -18,20 +22,17 @@ def sample_memory_data():
         "metadata": {
             "source": "pytest",
             "confidence": 0.95,
-            "tags": ["test", "sample"]
+            "tags": ["test", "sample"],
         },
         "embedding": [0.1, 0.2, 0.3, 0.4, 0.5],
-        "timestamp": datetime(2025, 7, 23, 23, 30, 0, tzinfo=timezone.utc)
+        "timestamp": datetime(2025, 7, 23, 23, 30, 0, tzinfo=timezone.utc),
     }
 
 
 @pytest.fixture
 def minimal_memory_data():
     """Minimal required data for creating Memory instances."""
-    return {
-        "content": "Minimal test memory",
-        "context": "minimal_test"
-    }
+    return {"content": "Minimal test memory", "context": "minimal_test"}
 
 
 @pytest.fixture
@@ -47,14 +48,9 @@ def complex_metadata():
         "source": "conversation",
         "confidence": 0.95,
         "tags": ["important", "user_preference"],
-        "nested": {
-            "level1": {
-                "level2": "deep_value",
-                "numbers": [1, 2, 3]
-            }
-        },
+        "nested": {"level1": {"level2": "deep_value", "numbers": [1, 2, 3]}},
         "boolean_flag": True,
-        "numeric_value": 42.5
+        "numeric_value": 42.5,
     }
 
 
@@ -82,22 +78,21 @@ def sample_texts():
     return [
         "This is the first sample text",
         "Here is another piece of text",
-        "And this is the third sample"
+        "And this is the third sample",
     ]
 
 
 @pytest.fixture
 def mock_ollama_response():
     """Mock successful Ollama API response."""
-    return {
-        "embedding": [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
-    }
+    return {"embedding": [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]}
 
 
 @pytest.fixture
 def memory_with_embedding(sample_memory_data):
     """Memory instance with embedding for storage testing."""
     from mcp_memory_server.models.memory import Memory
+
     return Memory(**sample_memory_data)
 
 
@@ -105,17 +100,19 @@ def memory_with_embedding(sample_memory_data):
 def memories_batch():
     """Batch of memory instances for bulk storage testing."""
     from mcp_memory_server.models.memory import Memory
-    
+
     memories = []
     for i in range(5):
-        memories.append(Memory(
-            id=f"batch-memory-{i}",
-            content=f"Batch memory content {i}",
-            context=f"batch_context_{i % 2}",  # Two different contexts
-            metadata={"batch_index": i, "source": "batch_test"},
-            embedding=[0.1 * i, 0.2 * i, 0.3 * i],
-            timestamp=datetime(2025, 1, 1, 12, i, 0, tzinfo=timezone.utc)
-        ))
+        memories.append(
+            Memory(
+                id=f"batch-memory-{i}",
+                content=f"Batch memory content {i}",
+                context=f"batch_context_{i % 2}",  # Two different contexts
+                metadata={"batch_index": i, "source": "batch_test"},
+                embedding=[0.1 * i, 0.2 * i, 0.3 * i],
+                timestamp=datetime(2025, 1, 1, 12, i, 0, tzinfo=timezone.utc),
+            )
+        )
     return memories
 
 
@@ -125,11 +122,25 @@ def search_results_mock():
     return {
         "ids": [["result-1", "result-2", "result-3"]],
         "documents": [["First result", "Second result", "Third result"]],
-        "metadatas": [[
-            {"context": "search_test", "timestamp": "2025-01-01T12:00:00+00:00", "source": "test"},
-            {"context": "search_test", "timestamp": "2025-01-01T11:00:00+00:00", "source": "test"},
-            {"context": "other_test", "timestamp": "2025-01-01T10:00:00+00:00", "source": "test"}
-        ]],
+        "metadatas": [
+            [
+                {
+                    "context": "search_test",
+                    "timestamp": "2025-01-01T12:00:00+00:00",
+                    "source": "test",
+                },
+                {
+                    "context": "search_test",
+                    "timestamp": "2025-01-01T11:00:00+00:00",
+                    "source": "test",
+                },
+                {
+                    "context": "other_test",
+                    "timestamp": "2025-01-01T10:00:00+00:00",
+                    "source": "test",
+                },
+            ]
+        ],
         "embeddings": [[[0.1, 0.2], [0.3, 0.4], [0.5, 0.6]]],
-        "distances": [[0.2, 0.5, 0.8]]
+        "distances": [[0.2, 0.5, 0.8]],
     }

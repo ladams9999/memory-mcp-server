@@ -8,7 +8,7 @@ from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     """Server settings."""
-    
+
     log_level: str = "INFO"
 
 
@@ -30,6 +30,7 @@ app = FastMCP("MCP Memory Server")
 #     # Implementation here
 #     return "Memory stored successfully"
 
+
 @app.tool("ping")
 async def ping() -> str:
     """Simple ping tool to test the server."""
@@ -40,10 +41,10 @@ def main() -> None:
     """Main entry point."""
     settings = Settings()
     setup_logging(settings.log_level)
-    
+
     logger = logging.getLogger(__name__)
     logger.info("Starting MCP Memory Server...")
-    
+
     # FastMCP handles the async event loop internally
     app.run()
 
