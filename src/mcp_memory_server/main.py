@@ -3,13 +3,12 @@
 import logging
 from fastmcp import FastMCP
 
-from pydantic_settings import BaseSettings
-
-
-class Settings(BaseSettings):
-    """Server settings."""
-
-    log_level: str = "INFO"
+# Application settings
+# Application settings
+from mcp_memory_server.config.settings import get_settings
+import mcp_memory_server.tools.memory_tools  # noqa: F401  # register tool implementations
+import asyncio
+from mcp_memory_server.embeddings.ollama import OllamaEmbeddingProvider
 
 
 def setup_logging(level: str = "INFO") -> None:
@@ -20,7 +19,11 @@ def setup_logging(level: str = "INFO") -> None:
     )
 
 
+# Create FastMCP app instance
 app = FastMCP("MCP Memory Server")
+
+# Register memory tools to the main app (import at top per PEP8)
+# noqa: F401
 
 # Add your tools and resources here
 # Example:
@@ -39,14 +42,30 @@ async def ping() -> str:
 
 def main() -> None:
     """Main entry point."""
-    settings = Settings()
+    # Load application settings
+    settings = get_settings()
     setup_logging(settings.log_level)
 
     logger = logging.getLogger(__name__)
     logger.info("Starting MCP Memory Server...")
 
-    # FastMCP handles the async event loop internally
-    app.run()
+    # Perform Ollama connectivity check via embedding provider
+    provider = OllamaEmbeddingProvider(
+        base_url=settings.ollama_base_url, model=settings.ollama_model
+    )
+    healthy = asyncio.run(provider.health_check())
+    if healthy:
+        logger.info("Ollama health check passed")
+    else:
+        logger.error("Ollama health check failed")
+        raise SystemExit(1)
+
+    # Run the FastMCP app (handles async event loop internally)
+    try:
+        app.run()
+    except Exception as e:
+        logger.error(f"Failed to run FastMCP server: {e}")
+        raise
 
 
 if __name__ == "__main__":

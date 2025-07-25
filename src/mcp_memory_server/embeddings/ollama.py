@@ -199,45 +199,28 @@ class OllamaEmbeddingProvider(EmbeddingProvider):
         Raises:
             EmbeddingError: If dimension cannot be determined
         """
-        if self._embedding_dimension is not None:
-            return self._embedding_dimension
-
-        # Generate a test embedding to determine dimension
-        try:
-            test_embedding = await self.get_embedding("test")
-            return len(test_embedding)
-        except Exception as e:
-            error_msg = f"Failed to determine embedding dimension: {str(e)}"
-            logger.error(error_msg)
-            raise EmbeddingError(error_msg, provider="ollama", original_error=e)
+        if self._embedding_dimension is None:
+            # Trigger a dummy embedding to determine dimension
+            embedding = await self.get_embedding("")
+            if not embedding:
+                raise EmbeddingError(
+                    "Embedding dimension not available", provider="ollama"
+                )
+            self._embedding_dimension = len(embedding)
+        return self._embedding_dimension
 
     async def health_check(self) -> bool:
         """
-        Check if the embedding provider is healthy and available.
+        Check if the Ollama service is available and responsive.
 
         Returns:
-            bool: True if healthy, False otherwise
+            bool: True if service is reachable, False otherwise
         """
         try:
-            # Check if Ollama is running by hitting the API endpoint
-            url = f"{self.base_url}/api/tags"
+            url = f"{self.base_url}/api/embeddings"
             response = await self.client.get(url)
             response.raise_for_status()
-
-            # Check if the specific model is available
-            data = response.json()
-            if "models" in data:
-                model_names = [model.get("name", "") for model in data["models"]]
-                if self.model not in model_names:
-                    logger.warning(
-                        f"Model '{self.model}' not found in available models: {model_names}"
-                    )
-                    return False
-
-            # Try a simple embedding to verify the model works
-            await self.get_embedding("health check")
             return True
-
         except Exception as e:
-            logger.warning(f"Ollama health check failed: {str(e)}")
+            logger.error(f"Ollama health check failed: {e}")
             return False

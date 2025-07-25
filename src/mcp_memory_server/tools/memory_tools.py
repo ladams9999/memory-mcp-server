@@ -5,7 +5,8 @@ MCP tools for memory operations: store, retrieve, and search.
 from typing import List, Dict, Any, Optional
 import logging
 
-from fastmcp import FastMCP
+# Use the main FastMCP app instance for registering tools
+from mcp_memory_server.main import app
 
 from ..services.memory_service import MemoryService, MemoryServiceError
 from ..embeddings.ollama import OllamaEmbeddingProvider
@@ -13,9 +14,6 @@ from ..storage.chroma import ChromaStorageProvider
 from ..config.settings import get_settings
 
 logger = logging.getLogger(__name__)
-
-# Create local FastMCP app for memory tools
-app = FastMCP("MCP Memory Tools")
 
 # Initialize providers and service
 settings = get_settings()

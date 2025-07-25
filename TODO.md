@@ -46,18 +46,17 @@ Epic Issue: https://github.com/ladams9999/memory-mcp-server/issues/6
 - [x] Implement `src/mcp_memory_server/tools/memory_tools.py` with FastMCP decorators
 - [x] Create `store_memories` tool with batch support
 - [x] Create `retrieve_memories` tool for context-based retrieval
-- [x] Create `search_memories` tool with semantic similarity
-- [ ] Implement `src/mcp_memory_server/main.py` with FastMCP server setup
-- [ ] Initialize all components (settings, storage, embeddings, service)
-- [ ] Register MCP tools with the server
-- [ ] Add basic error handling and logging
-- [ ] Create CLI entry point function
-- [ ] Add Ollama connectivity checks on startup
-- [ ] Validate ChromaDB directory creation and permissions
-- [ ] Add input validation for memory content and context
-- [ ] Implement graceful error responses in MCP tools
-- [ ] Add basic logging for debugging
-
+ - [x] Create `search_memories` tool with semantic similarity
+ - [x] Implement `src/mcp_memory_server/main.py` with FastMCP server setup
+ - [x] Initialize all components (settings, storage, embeddings, service)
+ - [x] Register MCP tools with the server
+ - [x] Add basic error handling and logging
+ - [x] Create CLI entry point function
+ - [x] Add Ollama connectivity checks on startup
+ - [x] Validate ChromaDB directory creation and permissions
+ - [ ] Add input validation for memory content and context
+ - [x] Implement graceful error responses in MCP tools
+ - [x] Add basic logging for debugging
 ## Epic: Testing & Validation
 Epic Issue: https://github.com/ladams9999/memory-mcp-server/issues/7
 
