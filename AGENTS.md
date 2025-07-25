@@ -105,6 +105,7 @@ This process ensures all work is visible, organized, and tracked in the GitHub p
 6. Install Ollama and start the service: `ollama serve`
 7. Pull the embedding model: `ollama pull mxbai-embed-large`
 8. Ensure Python 3.11+ is available
+9. Run the server: `uv run mcp-memory-server`
 
 ## Key Implementation Details
 

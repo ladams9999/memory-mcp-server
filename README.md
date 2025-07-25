@@ -30,3 +30,27 @@ See `.env.example` for configuration options.
 🚧 **This project is currently under development** 🚧
 
 This is an MVP implementation focusing on ChromaDB + Ollama integration.
+
+## Development
+
+After setting up the project and activating the virtual environment, use the UV package manager to manage dependencies, run the server, and execute tests:
+
+```bash
+# Install all dependencies including dev dependencies
+uv sync --dev
+
+# Activate the virtual environment
+uv shell
+
+# Run the server
+uv run mcp-memory-server
+
+# Run all tests
+uv run pytest
+
+# Run specific test file
+uv run pytest tests/unit/test_memory_service.py
+
+# Run tests with coverage
+uv run pytest --cov=src/mcp_memory_server --cov-report=html --cov-report=term-missing
+```
