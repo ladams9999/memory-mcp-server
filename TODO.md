@@ -28,11 +28,11 @@ Epic Issue: https://github.com/ladams9999/memory-mcp-server/issues/5
 - [x] Implement `src/mcp_memory_server/embeddings/ollama.py` with httpx client
 - [x] Add error handling for Ollama connection issues
 - [x] Test with mxbai-embed-large model
-- [ ] Create `src/mcp_memory_server/storage/__init__.py`
-- [ ] Create base interface `src/mcp_memory_server/storage/storage_interface.py`
-- [ ] Implement `src/mcp_memory_server/storage/chroma.py` with ChromaDB client
-- [ ] Handle collection creation and persistence to `./data/chroma_db`
-- [ ] Implement memory storage, retrieval, and semantic search
+- [x] Create `src/mcp_memory_server/storage/__init__.py`
+- [x] Create base interface `src/mcp_memory_server/storage/storage_interface.py`
+- [x] Implement `src/mcp_memory_server/storage/chroma.py` with ChromaDB client
+- [x] Handle collection creation and persistence to `./data/chroma_db`
+- [x] Implement memory storage, retrieval, and semantic search
 - [ ] Create `src/mcp_memory_server/services/__init__.py`
 - [ ] Implement `src/mcp_memory_server/services/memory_service.py`
 - [ ] Integrate Ollama embeddings with ChromaDB storage

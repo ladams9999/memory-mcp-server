@@ -88,3 +88,44 @@ def mock_ollama_response():
     return {
         "embedding": [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
     }
+
+
+@pytest.fixture
+def memory_with_embedding(sample_memory_data):
+    """Memory instance with embedding for storage testing."""
+    from mcp_memory_server.models.memory import Memory
+    return Memory(**sample_memory_data)
+
+
+@pytest.fixture
+def memories_batch():
+    """Batch of memory instances for bulk storage testing."""
+    from mcp_memory_server.models.memory import Memory
+    
+    memories = []
+    for i in range(5):
+        memories.append(Memory(
+            id=f"batch-memory-{i}",
+            content=f"Batch memory content {i}",
+            context=f"batch_context_{i % 2}",  # Two different contexts
+            metadata={"batch_index": i, "source": "batch_test"},
+            embedding=[0.1 * i, 0.2 * i, 0.3 * i],
+            timestamp=datetime(2025, 1, 1, 12, i, 0, tzinfo=timezone.utc)
+        ))
+    return memories
+
+
+@pytest.fixture
+def search_results_mock():
+    """Mock ChromaDB search results for testing."""
+    return {
+        "ids": [["result-1", "result-2", "result-3"]],
+        "documents": [["First result", "Second result", "Third result"]],
+        "metadatas": [[
+            {"context": "search_test", "timestamp": "2025-01-01T12:00:00+00:00", "source": "test"},
+            {"context": "search_test", "timestamp": "2025-01-01T11:00:00+00:00", "source": "test"},
+            {"context": "other_test", "timestamp": "2025-01-01T10:00:00+00:00", "source": "test"}
+        ]],
+        "embeddings": [[[0.1, 0.2], [0.3, 0.4], [0.5, 0.6]]],
+        "distances": [[0.2, 0.5, 0.8]]
+    }

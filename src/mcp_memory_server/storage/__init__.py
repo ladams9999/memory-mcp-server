@@ -1,6 +1,6 @@
-"""Storage backends for the Memory MCP Server."""
+"""Storage providers for the Memory MCP Server."""
 
-from .storage_interface import StorageBackend
-from .chroma import ChromaStorageBackend
+from .storage_interface import StorageProvider, StorageError
+from .chroma import ChromaStorageProvider
 
-__all__ = ["StorageBackend", "ChromaStorageBackend"]
+__all__ = ["StorageProvider", "StorageError", "ChromaStorageProvider"]
