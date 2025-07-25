@@ -1,9 +1,9 @@
 """Memory data model for the Memory MCP Server."""
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from uuid_extensions import uuid7
 
 
@@ -45,20 +45,14 @@ class Memory(BaseModel):
     )
     
     timestamp: datetime = Field(
-        default_factory=datetime.utcnow,
+        default_factory=lambda: datetime.now(timezone.utc),
         description="Timestamp when the memory was created"
     )
     
-    class Config:
-        """Pydantic configuration for the Memory model."""
-        
-        # Allow serialization of datetime objects
-        json_encoders = {
-            datetime: lambda v: v.isoformat()
-        }
-        
-        # Example for documentation (updated for Pydantic V2)
-        json_schema_extra = {
+    # Pydantic V2 configuration
+    model_config = ConfigDict(
+        # Example for documentation
+        json_schema_extra={
             "example": {
                 "id": "01234567-89ab-cdef-0123-456789abcdef",
                 "content": "User prefers dark mode in their IDE",
@@ -72,6 +66,7 @@ class Memory(BaseModel):
                 "timestamp": "2025-07-23T23:30:00Z"
             }
         }
+    )
     
     def __str__(self) -> str:
         """String representation of the memory."""

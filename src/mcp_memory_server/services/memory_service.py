@@ -3,7 +3,7 @@
 import asyncio
 import logging
 from typing import List, Optional, Dict, Any, Tuple
-from datetime import datetime
+from datetime import datetime, timezone
 
 import numpy as np
 
@@ -93,7 +93,7 @@ class MemoryService:
                     "content": data.get("content", ""),
                     "context": context,
                     "metadata": data.get("metadata", {}),
-                    "timestamp": data.get("timestamp", datetime.utcnow())
+                    "timestamp": data.get("timestamp", datetime.now(timezone.utc))
                 }
                 memories.append(Memory(**memory_dict))
             

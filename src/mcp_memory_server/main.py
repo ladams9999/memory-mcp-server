@@ -4,8 +4,6 @@ import logging
 from fastmcp import FastMCP
 
 from pydantic_settings import BaseSettings
-# Import memory tools to register MCP tools
-from .tools import memory_tools  # noqa: F401  # register MCP tools
 
 
 class Settings(BaseSettings):
