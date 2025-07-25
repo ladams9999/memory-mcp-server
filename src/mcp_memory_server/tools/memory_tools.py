@@ -2,12 +2,12 @@
 MCP tools for memory operations: store, retrieve, and search.
 """
 
-from typing import List, Dict, Any, Optional
 import logging
+from typing import List, Dict, Any, Optional
 
-# Use the main FastMCP app instance for registering tools
-from mcp_memory_server.main import app
-
+# Import the FastMCP app instance, Settings, and embedding provider
+# Shared FastMCP app instance
+from mcp_memory_server.app_instance import app
 from ..services.memory_service import MemoryService, MemoryServiceError
 from ..embeddings.ollama import OllamaEmbeddingProvider
 from ..storage.chroma import ChromaStorageProvider
@@ -39,6 +39,19 @@ async def store_memories(memories: List[Dict[str, Any]], context: str) -> List[s
 
     Returns list of memory IDs.
     """
+    # Input validation for context and memory content
+    if not isinstance(context, str) or not context.strip():
+        logger.error("Invalid context provided to store_memories")
+        return []
+    if not isinstance(memories, list):
+        logger.error("Invalid memories provided to store_memories; expected a list of memory dicts")
+        return []
+    # Validate each memory dict has non-empty 'content'
+    for idx, m in enumerate(memories):
+        content = m.get("content") if isinstance(m, dict) else None
+        if not isinstance(content, str) or not content.strip():
+            logger.error(f"Invalid memory at index {idx}: 'content' must be a non-empty string")
+            return []
     try:
         await service.initialize()
         stored = await service.store_memories(memories, context)

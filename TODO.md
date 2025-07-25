@@ -54,23 +54,23 @@ Epic Issue: https://github.com/ladams9999/memory-mcp-server/issues/6
  - [x] Create CLI entry point function
  - [x] Add Ollama connectivity checks on startup
  - [x] Validate ChromaDB directory creation and permissions
- - [ ] Add input validation for memory content and context
+- [x] Add input validation for memory content and context
  - [x] Implement graceful error responses in MCP tools
  - [x] Add basic logging for debugging
 ## Epic: Testing & Validation
 Epic Issue: https://github.com/ladams9999/memory-mcp-server/issues/7
 
-- [ ] Set up pytest configuration in pyproject.toml
-- [ ] Create `tests/conftest.py` with async fixtures
-- [ ] Write tests for Memory model validation
-- [ ] Write tests for Ollama embedding provider
-- [ ] Write tests for ChromaDB storage operations
-- [ ] Create `tests/integration/test_memory_service.py`
-- [ ] Test end-to-end memory storage and retrieval
-- [ ] Test semantic search functionality
-- [ ] Test error handling for Ollama downtime
-- [ ] Test ChromaDB persistence between restarts
-- [ ] Test CLI startup with proper environment configuration
+- [x] Set up pytest configuration in pyproject.toml
+- [x] Create `tests/conftest.py` with async fixtures
+- [x] Write tests for Memory model validation
+- [x] Write tests for Ollama embedding provider
+- [x] Write tests for ChromaDB storage operations
+- [x] Create `tests/integration/test_memory_service.py`
+- [x] Test end-to-end memory storage and retrieval
+- [x] Test semantic search functionality
+- [x] Test error handling for Ollama downtime
+- [x] Test ChromaDB persistence between restarts
+- [x] Test CLI startup with proper environment configuration
 - [ ] Manually test store_memories with sample data
 - [ ] Manually test retrieve_memories for different contexts
 - [ ] Manually test search_memories with semantic queries

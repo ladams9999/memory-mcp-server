@@ -10,11 +10,18 @@ async def test_health_check_success(monkeypatch):
     class FakeResponse:
         def raise_for_status(self):
             pass
+        
+        def json(self):
+            return {"models": [{"name": "model"}]}
 
     async def fake_get(url):
         return FakeResponse()
 
+    async def fake_get_embedding(text):
+        return [0.1, 0.2, 0.3]
+
     monkeypatch.setattr(provider.client, "get", fake_get)
+    monkeypatch.setattr(provider, "get_embedding", fake_get_embedding)
     assert await provider.health_check() is True
 
 @pytest.mark.asyncio

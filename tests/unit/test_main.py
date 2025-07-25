@@ -85,16 +85,16 @@ class TestMainFunction:
 
     @patch("mcp_memory_server.main.app.run")
     @patch("mcp_memory_server.main.setup_logging")
-    @patch("mcp_memory_server.main.Settings")
+    @patch("mcp_memory_server.main.get_settings")
     @patch("mcp_memory_server.main.logging.getLogger")
     def test_main_function_execution(
-        self, mock_get_logger, mock_settings_class, mock_setup_logging, mock_app_run
+        self, mock_get_logger, mock_get_settings, mock_setup_logging, mock_app_run
     ):
         """Test that main function executes correctly."""
         # Setup mocks
         mock_settings = Mock()
         mock_settings.log_level = "INFO"
-        mock_settings_class.return_value = mock_settings
+        mock_get_settings.return_value = mock_settings
 
         mock_logger = Mock()
         mock_get_logger.return_value = mock_logger
@@ -103,7 +103,7 @@ class TestMainFunction:
         main()
 
         # Verify the expected calls
-        mock_settings_class.assert_called_once()
+        mock_get_settings.assert_called_once()
         mock_setup_logging.assert_called_once_with("INFO")
         mock_get_logger.assert_called_once_with("mcp_memory_server.main")
         mock_logger.info.assert_called_once_with("Starting MCP Memory Server...")
@@ -111,16 +111,16 @@ class TestMainFunction:
 
     @patch("mcp_memory_server.main.app.run")
     @patch("mcp_memory_server.main.setup_logging")
-    @patch("mcp_memory_server.main.Settings")
+    @patch("mcp_memory_server.main.get_settings")
     @patch("mcp_memory_server.main.logging.getLogger")
     def test_main_function_with_debug_logging(
-        self, mock_get_logger, mock_settings_class, mock_setup_logging, mock_app_run
+        self, mock_get_logger, mock_get_settings, mock_setup_logging, mock_app_run
     ):
         """Test main function with DEBUG log level."""
         # Setup mocks
         mock_settings = Mock()
         mock_settings.log_level = "DEBUG"
-        mock_settings_class.return_value = mock_settings
+        mock_get_settings.return_value = mock_settings
 
         mock_logger = Mock()
         mock_get_logger.return_value = mock_logger
@@ -155,13 +155,13 @@ class TestMainFunction:
 
     @patch("mcp_memory_server.main.app.run")
     @patch("mcp_memory_server.main.setup_logging")
-    @patch("mcp_memory_server.main.Settings")
+    @patch("mcp_memory_server.main.get_settings")
     def test_main_function_settings_error_handling(
-        self, mock_settings_class, mock_setup_logging, mock_app_run
+        self, mock_get_settings, mock_setup_logging, mock_app_run
     ):
         """Test main function behavior when Settings initialization fails."""
-        # Make Settings raise an exception
-        mock_settings_class.side_effect = ValidationError.from_exception_data(
+        # Make get_settings raise an exception
+        mock_get_settings.side_effect = ValidationError.from_exception_data(
             "Settings", []
         )
 
@@ -241,9 +241,9 @@ class TestMainModuleEdgeCases:
     def test_settings_with_empty_string_log_level(self):
         """Test Settings with empty string log level."""
         with patch.dict("os.environ", {"LOG_LEVEL": ""}):
-            settings = Settings()
-            # Should fall back to default since empty string
-            assert settings.log_level == ""
+            with pytest.raises(ValidationError):
+                Settings()
+            # Empty string should be rejected, not fall back to default
 
     @patch("mcp_memory_server.main.logging.basicConfig")
     def test_setup_logging_case_insensitive(self, mock_basic_config):

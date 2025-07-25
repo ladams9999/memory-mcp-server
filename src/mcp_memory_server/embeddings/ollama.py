@@ -200,11 +200,16 @@ class OllamaEmbeddingProvider(EmbeddingProvider):
             EmbeddingError: If dimension cannot be determined
         """
         if self._embedding_dimension is None:
-            # Trigger a dummy embedding to determine dimension
-            embedding = await self.get_embedding("")
+            # Trigger a dummy embedding with test prompt to determine dimension
+            try:
+                embedding = await self.get_embedding("test")
+            except Exception as e:
+                raise EmbeddingError(
+                    "Failed to determine embedding dimension", provider="ollama", original_error=e
+                )
             if not embedding:
                 raise EmbeddingError(
-                    "Embedding dimension not available", provider="ollama"
+                    "Failed to determine embedding dimension", provider="ollama"
                 )
             self._embedding_dimension = len(embedding)
         return self._embedding_dimension
@@ -216,11 +221,26 @@ class OllamaEmbeddingProvider(EmbeddingProvider):
         Returns:
             bool: True if service is reachable, False otherwise
         """
+        # Check available models via tags endpoint
         try:
-            url = f"{self.base_url}/api/embeddings"
-            response = await self.client.get(url)
+            tags_url = f"{self.base_url}/api/tags"
+            response = await self.client.get(tags_url)
             response.raise_for_status()
+            data = response.json()
+            models = [m.get("name") for m in data.get("models", [])]
+            
+            # If models list is available, verify desired model is present
+            if "models" in data and self.model not in models:
+                return False
+        except Exception as e:
+            logger.error(f"Ollama health check HTTP failed: {e}")
+            # If tags endpoint fails, try embedding directly
+            pass
+
+        # Test embedding generation with health prompt
+        try:
+            await self.get_embedding("health check")
             return True
         except Exception as e:
-            logger.error(f"Ollama health check failed: {e}")
+            logger.error(f"Health check embedding failed: {e}")
             return False

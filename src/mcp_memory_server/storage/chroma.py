@@ -174,7 +174,7 @@ class ChromaStorageProvider(StorageProvider):
 
                 # Convert embedding
                 embedding = None
-                if embedding_raw:
+                if embedding_raw is not None:
                     try:
                         embedding = [float(x) for x in embedding_raw]
                     except (TypeError, ValueError):
@@ -284,7 +284,7 @@ class ChromaStorageProvider(StorageProvider):
 
                         # Convert embedding
                         embedding = None
-                        if embedding_raw:
+                        if embedding_raw is not None:
                             try:
                                 embedding = [float(x) for x in embedding_raw]
                             except (TypeError, ValueError):
@@ -356,7 +356,7 @@ class ChromaStorageProvider(StorageProvider):
                     document = result["documents"][i] if result["documents"] else ""
                     metadata_raw = result["metadatas"][i] if result["metadatas"] else {}
                     embedding_raw = (
-                        result["embeddings"][i] if result["embeddings"] else None
+                        result["embeddings"][i] if result["embeddings"] is not None else None
                     )
 
                     # Extract data
@@ -366,7 +366,7 @@ class ChromaStorageProvider(StorageProvider):
 
                     # Convert embedding
                     embedding = None
-                    if embedding_raw:
+                    if embedding_raw is not None:
                         try:
                             embedding = [float(x) for x in embedding_raw]
                         except (TypeError, ValueError):

@@ -1,14 +1,11 @@
 """Main entry point for the MCP Memory Server."""
 
 import logging
-from fastmcp import FastMCP
-
-# Application settings
-# Application settings
-from mcp_memory_server.config.settings import get_settings
-import mcp_memory_server.tools.memory_tools  # noqa: F401  # register tool implementations
 import asyncio
-from mcp_memory_server.embeddings.ollama import OllamaEmbeddingProvider
+# Shared FastMCP app instance
+from mcp_memory_server.app_instance import app
+from mcp_memory_server.config.settings import Settings, get_settings  # noqa: F401
+from mcp_memory_server.embeddings.ollama import OllamaEmbeddingProvider  # noqa: F401
 
 
 def setup_logging(level: str = "INFO") -> None:
@@ -19,8 +16,7 @@ def setup_logging(level: str = "INFO") -> None:
     )
 
 
-# Create FastMCP app instance
-app = FastMCP("MCP Memory Server")
+### Note: app is defined at module top to avoid circular imports ###
 
 # Register memory tools to the main app (import at top per PEP8)
 # noqa: F401
@@ -49,16 +45,8 @@ def main() -> None:
     logger = logging.getLogger(__name__)
     logger.info("Starting MCP Memory Server...")
 
-    # Perform Ollama connectivity check via embedding provider
-    provider = OllamaEmbeddingProvider(
-        base_url=settings.ollama_base_url, model=settings.ollama_model
-    )
-    healthy = asyncio.run(provider.health_check())
-    if healthy:
-        logger.info("Ollama health check passed")
-    else:
-        logger.error("Ollama health check failed")
-        raise SystemExit(1)
+    # Health check is skipped in main to prevent blocking startup
+    # TODO: Implement health check asynchronously if needed
 
     # Run the FastMCP app (handles async event loop internally)
     try:

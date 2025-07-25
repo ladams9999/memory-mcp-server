@@ -9,7 +9,15 @@ sys.path.insert(
 )
 
 import pytest
+import asyncio
 from datetime import datetime, timezone
+
+@pytest.fixture
+def event_loop():
+    """Override pytest-asyncio event_loop fixture to use a fresh loop."""
+    loop = asyncio.new_event_loop()
+    yield loop
+    loop.close()
 
 
 @pytest.fixture

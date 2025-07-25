@@ -7,7 +7,7 @@ This is an MCP (Model Context Protocol) server that provides long-term memory ca
 
 ## Project Task Management via GitHub Issues
 
-All project tasks, milestones, and epics are maintained via GitHub issues in the repository, using the GitHub MCP server for automation and tracking. The local TODO.md is deprecated; all new work should be tracked in GitHub issues.
+All project tasks, milestones, and epics are maintained via GitHub issues in the repository, using the GitHub MCP server for automation and tracking. The local TODO.md is used as a reference and synchronized with GitHub issues as needed.
 
 ### Issue Hierarchy and Block Format
 
