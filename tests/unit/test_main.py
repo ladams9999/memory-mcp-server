@@ -94,7 +94,7 @@ class TestMainFunction:
         # Setup mocks
         mock_settings = Mock()
         mock_settings.log_level = "INFO"
-        mock_settings.server_port = 8000
+        mock_settings.server_port = 8139
         mock_get_settings.return_value = mock_settings
 
         mock_logger = Mock()
@@ -111,7 +111,7 @@ class TestMainFunction:
         # Verify both log messages are called
         assert mock_logger.info.call_count == 2
         mock_logger.info.assert_any_call("Starting MCP Memory Server...")
-        mock_logger.info.assert_any_call("Server will start on port 8000")
+        mock_logger.info.assert_any_call("Server will start on port 8139")
         mock_app_run.assert_called_once()
 
     @patch("mcp_memory_server.main.app.run")
@@ -125,7 +125,7 @@ class TestMainFunction:
         # Setup mocks
         mock_settings = Mock()
         mock_settings.log_level = "DEBUG"
-        mock_settings.server_port = 8000
+        mock_settings.server_port = 8139
         mock_get_settings.return_value = mock_settings
 
         mock_logger = Mock()
@@ -148,7 +148,7 @@ class TestMainFunction:
         # Setup mocks
         mock_settings = Mock()
         mock_settings.log_level = "INFO"
-        mock_settings.server_port = 8000
+        mock_settings.server_port = 8139
         mock_settings_class.return_value = mock_settings
 
         mock_logger = Mock()
@@ -194,7 +194,7 @@ class TestMainFunction:
         # Setup mocks
         mock_settings = Mock()
         mock_settings.log_level = "INFO"
-        mock_settings.server_port = 8000
+        mock_settings.server_port = 8139
         mock_get_settings.return_value = mock_settings
 
         mock_logger = Mock()
@@ -204,10 +204,10 @@ class TestMainFunction:
         main()
 
         # Verify FASTMCP_PORT was set
-        assert os.environ.get("FASTMCP_PORT") == "8000"
+        assert os.environ.get("FASTMCP_PORT") == "8139"
         
         # Verify logging includes port information
-        mock_logger.info.assert_any_call("Server will start on port 8000")
+        mock_logger.info.assert_any_call("Server will start on port 8139")
 
     @patch("mcp_memory_server.main.os.environ", {})
     @patch("mcp_memory_server.main.app.run")

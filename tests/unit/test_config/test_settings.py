@@ -16,21 +16,27 @@ class TestSettingsDefaults:
 
     def test_default_values(self):
         """Test that default settings values are correct."""
-        settings = Settings()
+        # Ensure we test defaults by temporarily removing SERVER_PORT env var if it exists
+        with patch.dict(os.environ, {}, clear=False):
+            # Remove SERVER_PORT to test actual defaults
+            if "SERVER_PORT" in os.environ:
+                del os.environ["SERVER_PORT"]
+            
+            settings = Settings()
 
-        assert settings.storage_backend == "chroma"
-        # Path should be resolved to absolute path
-        assert "data" in settings.chroma_path
-        assert "chroma_db" in settings.chroma_path
-        assert settings.chroma_collection_name == "memories"
-        assert settings.embedding_provider == "ollama"
-        assert settings.ollama_base_url == "http://localhost:11434"
-        assert settings.ollama_model == "mxbai-embed-large"
-        assert settings.max_memories_per_request == 100
-        assert settings.default_search_limit == 10
-        assert settings.similarity_threshold == 0.7
-        assert settings.log_level == "INFO"
-        assert settings.server_port == 8000
+            assert settings.storage_backend == "chroma"
+            # Path should be resolved to absolute path
+            assert "data" in settings.chroma_path
+            assert "chroma_db" in settings.chroma_path
+            assert settings.chroma_collection_name == "memories"
+            assert settings.embedding_provider == "ollama"
+            assert settings.ollama_base_url == "http://localhost:11434"
+            assert settings.ollama_model == "mxbai-embed-large"
+            assert settings.max_memories_per_request == 100
+            assert settings.default_search_limit == 10
+            assert settings.similarity_threshold == 0.7
+            assert settings.log_level == "INFO"
+            assert settings.server_port == 8139
 
     def test_settings_with_env_variables(self):
         """Test settings loading from environment variables."""
@@ -150,8 +156,8 @@ class TestSettingsValidation:
         settings = Settings(server_port=65535)  # Maximum port
         assert settings.server_port == 65535
 
-        settings = Settings(server_port=8000)  # Default port
-        assert settings.server_port == 8000
+        settings = Settings(server_port=8139)  # Default port
+        assert settings.server_port == 8139
 
         settings = Settings(server_port=9000)  # Custom port
         assert settings.server_port == 9000

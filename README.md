@@ -57,16 +57,16 @@ uv run pytest --cov=src/mcp_memory_server --cov-report=html --cov-report=term-mi
 
 ## Agent Integration: VS Code & Warp
 
-To use the MCP Memory Server as a memory backend for your agent, you need to configure your agent or development environment to connect to the server’s MCP endpoint.
+To use the MCP Memory Server as a memory backend for your agent, you need to configure your agent or development environment to connect to the server's MCP endpoint.
 
 ### VS Code Settings
 
-If your agent runs in VS Code and supports MCP memory, add the following to your settings (or your agent’s config):
+If your agent runs in VS Code and supports MCP memory, add the following to your settings (or your agent's config):
 
 ```jsonc
 // .vscode/settings.json
 {
-  "mcp.memory.endpoint": "http://localhost:8000", // Replace with your MCP server URL
+  "mcp.memory.endpoint": "http://localhost:8139", // Replace with your MCP server URL
   "mcp.memory.api_key": "" // (if authentication is added in future)
 }
 ```
@@ -81,27 +81,27 @@ If you use Warp terminal and want to connect an agent or tool to the MCP server:
 1. Open Warp settings.
 2. Add an environment variable for the MCP endpoint:
    - Name: `MCP_MEMORY_ENDPOINT`
-   - Value: `http://localhost:8000` (or your server’s address)
+   - Value: `http://localhost:8139` (or your server's address)
 3. Restart Warp to apply the environment variable.
 
 Your agent or CLI tool should read this environment variable to connect to the MCP server.
 
 ### Stdio Agent Configuration
 
-If your agent uses stdio (standard input/output) for communication, configure it to send MCP memory requests to the server’s HTTP endpoint. Most agents allow you to specify a memory backend via environment variable or config file:
+If your agent uses stdio (standard input/output) for communication, configure it to send MCP memory requests to the server's HTTP endpoint. Most agents allow you to specify a memory backend via environment variable or config file:
 
 **Example (environment variable):**
 
 ```sh
-export MCP_MEMORY_ENDPOINT="http://localhost:8000"
+export MCP_MEMORY_ENDPOINT="http://localhost:8139"
 ```
 
-Or in your agent’s config file:
+Or in your agent's config file:
 
 ```ini
 [memory]
 backend = "mcp"
-endpoint = "http://localhost:8000"
+endpoint = "http://localhost:8139"
 ```
 
 - Start the MCP server (`uv run mcp-memory-server`).
@@ -115,6 +115,6 @@ endpoint = "http://localhost:8000"
 ---
 
 **Note:**
-- The MCP server must be running and accessible from your agent’s environment.
+- The MCP server must be running and accessible from your agent's environment.
 - If you use Docker or remote servers, update the endpoint accordingly.
-- For more advanced agent integrations, refer to your agent’s documentation for MCP memory configuration options.
+- For more advanced agent integrations, refer to your agent's documentation for MCP memory configuration options.

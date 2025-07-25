@@ -70,7 +70,7 @@ class Settings(BaseSettings):
 
     # Server Configuration
     server_port: int = Field(
-        default=8000,
+        default=8139,
         ge=1024,
         le=65535,
         description="Port for the MCP server to listen on",
@@ -145,7 +145,7 @@ class Settings(BaseSettings):
                 "default_search_limit": 10,
                 "similarity_threshold": 0.7,
                 "log_level": "INFO",
-                "server_port": 8000,
+                "server_port": 8139,
             }
         },
     )
