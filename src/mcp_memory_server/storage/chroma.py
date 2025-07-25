@@ -8,6 +8,7 @@ from datetime import datetime
 
 import chromadb
 from chromadb.config import Settings
+from chromadb.errors import NotFoundError
 
 from .storage_interface import StorageProvider, StorageError
 from ..models.memory import Memory
@@ -67,7 +68,7 @@ class ChromaStorageProvider(StorageProvider):
                     name=self.collection_name
                 )
                 logger.info(f"Retrieved existing collection '{self.collection_name}'")
-            except ValueError:
+            except (ValueError, NotFoundError):
                 # Collection doesn't exist, create it
                 self._collection = self._client.create_collection(
                     name=self.collection_name,

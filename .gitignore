@@ -209,3 +209,5 @@ __marimo__/
 # ChromaDB data directory
 data/
 chroma_db/
+test_data
+*.sqlite3

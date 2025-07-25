@@ -33,11 +33,11 @@ Epic Issue: https://github.com/ladams9999/memory-mcp-server/issues/5
 - [x] Implement `src/mcp_memory_server/storage/chroma.py` with ChromaDB client
 - [x] Handle collection creation and persistence to `./data/chroma_db`
 - [x] Implement memory storage, retrieval, and semantic search
-- [ ] Create `src/mcp_memory_server/services/__init__.py`
-- [ ] Implement `src/mcp_memory_server/services/memory_service.py`
-- [ ] Integrate Ollama embeddings with ChromaDB storage
-- [ ] Add cosine similarity calculation using numpy
-- [ ] Implement batch embedding generation for efficiency
+- [x] Create `src/mcp_memory_server/services/__init__.py`
+- [x] Implement `src/mcp_memory_server/services/memory_service.py`
+- [x] Integrate Ollama embeddings with ChromaDB storage
+- [x] Add cosine similarity calculation using numpy
+- [x] Implement batch embedding generation for efficiency
 
 ## Epic: MCP Integration & Tools
 Epic Issue: https://github.com/ladams9999/memory-mcp-server/issues/6
