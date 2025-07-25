@@ -12,14 +12,14 @@ An MCP (Model Context Protocol) server that provides long-term memory capabiliti
 
 ## Setup
 
-1. Install UV package manager
-2. Install Ollama and start the service
-3. Pull the embedding model: `ollama pull mxbai-embed-large`
-4. Clone this repository
-5. Install dependencies: `uv sync`
-6. Activate virtual environment: `uv shell`
-7. Run the server: `uv run mcp-memory-server`
-8. Copy `.env.example` to `.env` and configure as needed
+1. Clone this repository
+2. Install UV package manager ([installation guide](https://uv.sh/install))
+3. Copy `.env.example` to `.env` and configure environment variables
+4. Install dependencies: `uv sync --dev`
+5. Activate the virtual environment: `uv shell`
+6. Install Ollama and start the service: `ollama serve`
+7. Pull the embedding model: `ollama pull mxbai-embed-large`
+8. Run the server: `uv run mcp-memory-server`
 
 ## Configuration
 

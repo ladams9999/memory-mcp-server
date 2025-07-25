@@ -97,10 +97,14 @@ This process ensures all work is visible, organized, and tracked in the GitHub p
 
 ## Environment Setup Requirements
 
-1. UV installed (activate the virtual environment with `uv shell`)
-2. Ollama installed and running: `ollama serve`
-3. Embedding model pulled: `ollama pull mxbai-embed-large`
-4. Python 3.11+ available
+1. Clone this repository
+2. Install UV package manager ([installation guide](https://uv.sh/install))
+3. Copy `.env.example` to `.env` and configure environment variables
+4. Install dependencies: `uv sync --dev`
+5. Activate the virtual environment: `uv shell`
+6. Install Ollama and start the service: `ollama serve`
+7. Pull the embedding model: `ollama pull mxbai-embed-large`
+8. Ensure Python 3.11+ is available
 
 ## Key Implementation Details
 
