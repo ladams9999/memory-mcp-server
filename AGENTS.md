@@ -56,11 +56,47 @@ Checklist tasks for the epic should be listed below this block.
 
 This process ensures all work is visible, organized, and tracked in the GitHub project and issues.
 
-## MVP Target Configuration
-- **Runtime**: CLI (no Docker for MVP)
-- **Storage Backend**: ChromaDB (filesystem-based)
-- **Embedding Provider**: Ollama (local, self-hosted)
-- **Target Model**: mxbai-embed-large or nomic-embed-text
+
+## Agent Integration & Setup
+
+To use the MCP Memory Server as a memory backend for your agent, configure your agent or development environment to connect to the server's MCP endpoint.
+
+### VS Code Settings
+
+Create or update your `mcp.json` file (location: VS Code user settings or agent config directory):
+
+```jsonc
+{
+  "servers": {
+    "MCP Memory Server": {
+      "url": "http://localhost:8139/mcp/",
+      "type": "http"
+    }
+  },
+  "inputs": []
+}
+```
+
+### Warp Settings
+
+```jsonc
+{
+  "MCP Memory Server": {
+    "url": "http://localhost:8139/mcp/"
+  }
+}
+```
+
+- Ensure the MCP server is running locally (`uv run mcp-memory-server`).
+- Update the endpoint if running on a different host or port.
+
+**Notes:**
+- Agents may require a restart after changing environment variables or config files.
+- If running in a container or remote environment, update the endpoint to match your network setup.
+
+**The MCP server must be running and accessible from your agent's environment.**
+- If you use Docker or remote servers, update the endpoint accordingly.
+- For more advanced agent integrations, refer to your agent's documentation for MCP memory configuration options.
 
 ## Key Architecture Decisions for MVP
 1. **Single Storage Backend**: Focus only on ChromaDB implementation to reduce complexity
