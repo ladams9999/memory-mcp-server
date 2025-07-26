@@ -1,4 +1,4 @@
-"""Main entry point for the MCP Memory Server."""
+
 
 import logging
 import os
@@ -6,6 +6,9 @@ import os
 from mcp_memory_server.app_instance import app
 from mcp_memory_server.config.settings import Settings, get_settings  # noqa: F401
 from mcp_memory_server.embeddings.ollama import OllamaEmbeddingProvider  # noqa: F401
+
+# Import memory tools to register them with the app
+from mcp_memory_server.tools import memory_tools  # noqa: F401
 
 
 def setup_logging(level: str = "INFO") -> None:
@@ -56,7 +59,11 @@ def main() -> None:
 
     # Run the FastMCP app (handles async event loop internally)
     try:
-        app.run()
+        app.run(
+            transport="http",
+            host="localhost",
+            port=settings.server_port
+        )
     except Exception as e:
         logger.error(f"Failed to run FastMCP server: {e}")
         raise
