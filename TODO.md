@@ -71,15 +71,24 @@ Epic Issue: https://github.com/ladams9999/memory-mcp-server/issues/7
 - [x] Test error handling for Ollama downtime
 - [x] Test ChromaDB persistence between restarts
 - [x] Test CLI startup with proper environment configuration
-- [ ] Manually test store_memories with sample data
-- [ ] Manually test retrieve_memories for different contexts
-- [ ] Manually test search_memories with semantic queries
-- [ ] Verify data persistence across server restarts
+- [x] Manually test store_memories with sample data
+- [x] Manually test retrieve_memories for different contexts
+- [x] Manually test search_memories with semantic queries
+- [x] Verify data persistence across server restarts
 - [ ] Test with larger memory datasets (100+ memories)
 - [ ] Test concurrent memory operations
 - [ ] Verify memory usage and performance
 - [ ] Test ChromaDB query performance
 - [ ] Validate embedding generation speed
+
+## Issues Identified on 2025-07-25
+
+### ✅ RESOLVED: MCP Integration Testing Issues
+- **Issue**: MCP Memory Server was running but MCP tools were not accessible via VS Code MCP integration
+- **Root Cause**: Memory tools import was missing from main.py 
+- **Resolution**: Added `from mcp_memory_server.tools import memory_tools` import to main.py
+- **Verification**: Server restarted, tools registered successfully, functionality verified with test scripts
+- **Results**: Successfully stored 24 memories (14 PRD features + 10 project state records), semantic search working with high relevance scores (0.78-0.90)
 
 ## Epic: Documentation & Final Packaging
 Epic Issue: https://github.com/ladams9999/memory-mcp-server/issues/8
