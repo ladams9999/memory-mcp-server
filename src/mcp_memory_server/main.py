@@ -48,9 +48,6 @@ def main() -> None:
     logger = logging.getLogger(__name__)
     logger.info("Starting MCP Memory Server...")
 
-    # Configure FastMCP to use the specified port
-    # FastMCP reads FASTMCP_PORT environment variable for port configuration
-    os.environ["FASTMCP_PORT"] = str(settings.server_port)
     
     logger.info(f"Server will start on port {settings.server_port}")
 
