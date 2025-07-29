@@ -20,6 +20,8 @@ An MCP (Model Context Protocol) server that provides long-term memory capabiliti
 6. Pull the embedding model: `ollama pull mxbai-embed-large`
 7. Run the server: `uv run mcp-memory-server`
 
+Uvicorn uses websockets in a way that has been deprecated in websockets >= 14.0.  You may see a warning to this effect when you start the server.     
+
 ## Configuration
 
 See `.env.example` for configuration options.
