@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "mcp-memory-server"
 version = "0.1.0"
 description = "MCP server for long-term memory storage and retrieval"
-authors = [{name = "Lloyd Adams", email = "ladams9999@users.noreply.github.com"}]
+authors = [{name = "Lloyd Adams", email = "lloyd.adams@gmail.com"}]
 license = {text = "MIT"}
 readme = "README.md"
 requires-python = ">=3.11"
