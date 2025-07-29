@@ -1,9 +1,6 @@
-"""Configuration settings for the Memory MCP Server."""
-
 import os
 from pathlib import Path
 from typing import Literal
-
 from pydantic import Field, field_validator, ConfigDict
 from pydantic_settings import BaseSettings
 
