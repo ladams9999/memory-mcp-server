@@ -8,12 +8,14 @@ from mcp_memory_server.config.settings import Settings, get_settings  # noqa: F4
 from mcp_memory_server.embeddings.ollama import OllamaEmbeddingProvider  # noqa: F401
 
 # Import memory tools to register them with the app
-from mcp_memory_server.tools import memory_tools  # noqa: F401
+#from mcp_memory_server.tools import memory_tools  # noqa: F401
 
 
-def setup_logging(level: str = "INFO") -> None:
+def setup_logging(level: str = "INFO", log_file: str = "mcp_memory_server.log") -> None:
     """Set up logging configuration."""
     logging.basicConfig(
+        filename=log_file,
+        filemode="a",
         level=getattr(logging, level.upper()),
         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     )
@@ -43,9 +45,10 @@ def main() -> None:
     """Main entry point."""
     # Load application settings
     settings = get_settings()
-    setup_logging(settings.log_level)
+    setup_logging(settings.log_level, settings.log_file)
 
     logger = logging.getLogger(__name__)
+
     logger.info("Starting MCP Memory Server...")
 
     

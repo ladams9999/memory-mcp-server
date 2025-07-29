@@ -67,6 +67,7 @@ class Settings(BaseSettings):
 
     # Logging
     log_level: str = Field(default="INFO", description="Logging level")
+    log_file: str = Field(default="mcp_memory_server.log", description="Log file path")
 
     # Server Configuration
     server_port: int = Field(

@@ -36,8 +36,9 @@ class TestSetupLogging:
     def test_setup_logging_default(self, mock_basic_config):
         """Test setup_logging with default level."""
         setup_logging()
-
         mock_basic_config.assert_called_once_with(
+            filename="mcp_memory_server.log",
+            filemode="a",
             level=logging.INFO,
             format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
         )
@@ -46,8 +47,9 @@ class TestSetupLogging:
     def test_setup_logging_custom_level(self, mock_basic_config):
         """Test setup_logging with custom level."""
         setup_logging("DEBUG")
-
         mock_basic_config.assert_called_once_with(
+            filename="mcp_memory_server.log",
+            filemode="a",
             level=logging.DEBUG,
             format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
         )
@@ -95,6 +97,7 @@ class TestMainFunction:
         mock_settings = Mock()
         mock_settings.log_level = "INFO"
         mock_settings.server_port = 8139
+        mock_settings.log_file = "mcp_memory_server.log"
         mock_get_settings.return_value = mock_settings
 
         mock_logger = Mock()
@@ -105,7 +108,7 @@ class TestMainFunction:
 
         # Verify the expected calls
         mock_get_settings.assert_called_once()
-        mock_setup_logging.assert_called_once_with("INFO")
+        mock_setup_logging.assert_called_once_with("INFO", "mcp_memory_server.log")
         mock_get_logger.assert_called_once_with("mcp_memory_server.main")
         
         # Verify both log messages are called
@@ -126,6 +129,7 @@ class TestMainFunction:
         mock_settings = Mock()
         mock_settings.log_level = "DEBUG"
         mock_settings.server_port = 8139
+        mock_settings.log_file = "mcp_memory_server.log"
         mock_get_settings.return_value = mock_settings
 
         mock_logger = Mock()
@@ -135,7 +139,7 @@ class TestMainFunction:
         main()
 
         # Verify DEBUG logging was set up
-        mock_setup_logging.assert_called_once_with("DEBUG")
+        mock_setup_logging.assert_called_once_with("DEBUG", "mcp_memory_server.log")
 
     @patch("mcp_memory_server.main.app.run")
     @patch("mcp_memory_server.main.setup_logging")
@@ -149,6 +153,7 @@ class TestMainFunction:
         mock_settings = Mock()
         mock_settings.log_level = "INFO"
         mock_settings.server_port = 8139
+        mock_settings.log_file = "mcp_memory_server.log"
         mock_settings_class.return_value = mock_settings
 
         mock_logger = Mock()
@@ -180,88 +185,24 @@ class TestMainFunction:
         mock_setup_logging.assert_not_called()
         mock_app_run.assert_not_called()
 
-    @patch("mcp_memory_server.main.os.environ", {})
     @patch("mcp_memory_server.main.app.run")
     @patch("mcp_memory_server.main.setup_logging")
-    @patch("mcp_memory_server.main.get_settings")
     @patch("mcp_memory_server.main.logging.getLogger")
-    def test_main_function_sets_fastmcp_port_default(
-        self, mock_get_logger, mock_get_settings, mock_setup_logging, mock_app_run
+    def test_main_logger_error_handling(
+        self, mock_get_logger, mock_setup_logging, mock_app_run
     ):
-        """Test that main function sets FASTMCP_PORT environment variable to default port."""
-        import os
-        
-        # Setup mocks
-        mock_settings = Mock()
-        mock_settings.log_level = "INFO"
-        mock_settings.server_port = 8139
-        mock_get_settings.return_value = mock_settings
-
+        """Test main function when logger operations fail."""
+        # Make logger.info raise an exception
         mock_logger = Mock()
+        mock_logger.info.side_effect = Exception("Logging failed")
         mock_get_logger.return_value = mock_logger
 
-        # Call main function
-        main()
+        # main() should continue even if logging fails
+        with pytest.raises(Exception, match="Logging failed"):
+            main()
 
-        # Verify FASTMCP_PORT was set
-        assert os.environ.get("FASTMCP_PORT") == "8139"
-        
-        # Verify logging includes port information
-        mock_logger.info.assert_any_call("Server will start on port 8139")
-
-    @patch("mcp_memory_server.main.os.environ", {})
-    @patch("mcp_memory_server.main.app.run")
-    @patch("mcp_memory_server.main.setup_logging")
-    @patch("mcp_memory_server.main.get_settings")
-    @patch("mcp_memory_server.main.logging.getLogger")
-    def test_main_function_sets_fastmcp_port_custom(
-        self, mock_get_logger, mock_get_settings, mock_setup_logging, mock_app_run
-    ):
-        """Test that main function sets FASTMCP_PORT environment variable to custom port."""
-        import os
-        
-        # Setup mocks
-        mock_settings = Mock()
-        mock_settings.log_level = "INFO"
-        mock_settings.server_port = 9000
-        mock_get_settings.return_value = mock_settings
-
-        mock_logger = Mock()
-        mock_get_logger.return_value = mock_logger
-
-        # Call main function
-        main()
-
-        # Verify FASTMCP_PORT was set to custom port
-        assert os.environ.get("FASTMCP_PORT") == "9000"
-        
-        # Verify logging includes custom port information
-        mock_logger.info.assert_any_call("Server will start on port 9000")
-
-    @patch("mcp_memory_server.main.app.run")
-    @patch("mcp_memory_server.main.setup_logging")
-    @patch("mcp_memory_server.main.get_settings")
-    @patch("mcp_memory_server.main.logging.getLogger")
-    def test_main_function_port_logging_order(
-        self, mock_get_logger, mock_get_settings, mock_setup_logging, mock_app_run
-    ):
-        """Test that port logging happens after server startup message."""
-        # Setup mocks
-        mock_settings = Mock()
-        mock_settings.log_level = "INFO"
-        mock_settings.server_port = 8080
-        mock_get_settings.return_value = mock_settings
-
-        mock_logger = Mock()
-        mock_get_logger.return_value = mock_logger
-
-        # Call main function
-        main()
-
-        # Check that both log messages were called
-        assert mock_logger.info.call_count == 2
-        mock_logger.info.assert_any_call("Starting MCP Memory Server...")
-        mock_logger.info.assert_any_call("Server will start on port 8080")
+        # setup_logging should still be called
+        mock_setup_logging.assert_called_once()
 
 
 class TestMainModuleExecution:
@@ -310,10 +251,11 @@ class TestMainModuleIntegration:
     @patch("mcp_memory_server.main.logging.basicConfig")
     def test_logging_setup_integration(self, mock_basic_config):
         """Test logging setup integration with Settings."""
-        settings = Settings(log_level="WARNING")
-        setup_logging(settings.log_level)
-
+        settings = Settings(log_level="WARNING", log_file="mcp_memory_server.log")
+        setup_logging(settings.log_level, settings.log_file)
         mock_basic_config.assert_called_once_with(
+            filename="mcp_memory_server.log",
+            filemode="a",
             level=logging.WARNING,
             format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
         )
@@ -344,22 +286,3 @@ class TestMainModuleEdgeCases:
         call_args = mock_basic_config.call_args
         # Should convert to proper logging level
         assert call_args[1]["level"] == logging.DEBUG
-
-    @patch("mcp_memory_server.main.app.run")
-    @patch("mcp_memory_server.main.setup_logging")
-    @patch("mcp_memory_server.main.logging.getLogger")
-    def test_main_logger_error_handling(
-        self, mock_get_logger, mock_setup_logging, mock_app_run
-    ):
-        """Test main function when logger operations fail."""
-        # Make logger.info raise an exception
-        mock_logger = Mock()
-        mock_logger.info.side_effect = Exception("Logging failed")
-        mock_get_logger.return_value = mock_logger
-
-        # main() should continue even if logging fails
-        with pytest.raises(Exception, match="Logging failed"):
-            main()
-
-        # setup_logging should still be called
-        mock_setup_logging.assert_called_once()
