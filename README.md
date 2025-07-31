@@ -2,6 +2,8 @@
 
 An MCP (Model Context Protocol) server that provides long-term memory capabilities for AI agents, enabling persistent storage, retrieval, and semantic search of contextual memories across sessions.
 
+I've created this project because I've found myself jumping between multiple models, agents, and even apps in the course of working on my projects.  For the coding agents, you can nominally maintain a file to retain memory, but I've been using tools that don't have that access, and also working with data I don't want saved publicly as part of the work.  This is part of the reason I've started with local first architecture (Ollama + ChromaDB).
+
 ## Features
 
 - Store memories with contextual information
@@ -72,6 +74,8 @@ Create or update your `mcp.json` file (location: VS Code user settings or agent 
   "inputs": []
 }
 ```
+
+You may run into a situation where VS Code limits the number of tools you make available to its agents, and will start chucking errors when you try to use them if you are over this limit.  You can resolve this by going to the tool list and unchecking the tools you aren't using until you get under that limit.  
 
 ### Warp Settings
 
